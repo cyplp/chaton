@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <head>
+    <title metal:define-slot='title'>The Chaton Project </title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  </head>
+  <body>
+    <article class="container">
+      <div class="navbar">
+	  <div class="container" >
+	  </div>
+	</div>
+    <div class="container">
+      <tal:message condition="request.session.peek_flash()">
+	<div class="alert"
+             tal:repeat="message request.session.pop_flash()">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <tal:alert replace="structure message" />
+	</div>
+      </tal:message>
+    </div>
+
+    <div class="row">
+      <nav class="col-md-2">
+	<ul class="nav nav-tabs nav-stacked">
+	  <li tal:condition='request.path != "/"'>
+	    <a href="${request.route_path('home')}" i18n:translate='' class="new">Home</a>
+	  </li>
+	</ul>
+      </nav>
+
+      <div id="content" metal:define-slot="content"></div>
+
+    </div>
+    <div id="pagination" metal:define-slot="pagination"></div>
+
+    </article>
+
+
+
+  </body>
+</html>

@@ -13,6 +13,15 @@ requires = [
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'waitress',
+    'pyramid_fanstatic',
+    'rebecca.fanstatic',
+    'couchdbkit',
+    'py-bcrypt',
+    'js.bootstrap',
+    'css.fontawesome',
+    'pyramid_mailer',
+    'js.jquery',
+    'fanstatic',
     ]
 
 setup(name='chaton',
@@ -38,5 +47,7 @@ setup(name='chaton',
       entry_points="""\
       [paste.app_factory]
       main = chaton:main
+      [console_scripts]
+      aduser = chaton.utils:addUser
       """,
       )

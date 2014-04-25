@@ -1,0 +1,17 @@
+<metal:main use-macro="load: layout.pt" >
+  <div class="col-md-9" metal:fill-slot="content">
+    <article >
+      <form method="POST" action="${request.route_path('home')}">
+	<label for="login">Login</label>
+	<input type="email" name="login" value="${login}" />
+	<label for="password">Password</label>
+	<input type="password" name="password" />
+	<button class="btn btn-success">Sign In</button>
+      </form>
+    </article>
+  </div>
+</metal:main>
+
+
+
+
