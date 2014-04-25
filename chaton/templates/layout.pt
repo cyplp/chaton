@@ -30,6 +30,11 @@
 	    <a href="${request.route_path('home')}" i18n:translate='' class="new">Home</a>
 	  </li>
 	</ul>
+	<ul class="nav nav-tabs nav-stacked">
+	  <li tal:condition='request.path != "/upload"'>
+	    <a href="${request.route_path('upload')}" i18n:translate='' class="new">Upload a video</a>
+	  </li>
+	</ul>
       </nav>
 
       <div id="content" metal:define-slot="content"></div>

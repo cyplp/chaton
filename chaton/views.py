@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 from pyramid.view import view_config
 from pyramid.threadlocal import get_current_registry
@@ -12,7 +13,8 @@ import couchdbkit
 
 import bcrypt
 
-from chaton.models.user import User
+from chaton.models import User
+from chaton.models import Video
 
 logger = logging.getLogger('view')
 
@@ -22,7 +24,7 @@ server = couchdbkit.Server(settings['couchdb.url'])
 db = server.get_or_create_db(settings['couchdb.db'])
 
 User.set_db(db)
-
+Video.set_db(db)
 
 @view_config(route_name='home', renderer='templates/home.pt', logged=False)
 def home(request):
@@ -65,3 +67,28 @@ def signin(request):
 @view_config(route_name='home', renderer='templates/logged.pt', logged=True)
 def logged(request):
     return {}
+
+@view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
+def upload(request):
+    return {}
+
+
+@view_config(route_name='upload', logged=True, request_method="POST")
+def uploading(request):
+    title = request.POST.get('title', '')
+    description = request.POST.get('description', '')
+    owner = request.session.username
+    userid = request.session.login
+
+    created = datetime.datetime.now()
+
+    video = Video(title=title,
+                  description=description,
+                  owner=owner,
+                  userid=userid,
+                  created=created)
+    video.save()
+    video.put_attachment(request.POST['file'].file, 'video')
+
+    return {}
+
