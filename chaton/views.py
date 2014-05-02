@@ -1,15 +1,15 @@
 import logging
 import datetime
+import os.path
 
 from pyramid.view import view_config
 from pyramid.threadlocal import get_current_registry
 from pyramid.security import remember
 from pyramid.httpexceptions import HTTPFound
-
-#from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound
 
 import couchdbkit
-#from couchdbkit.designer import push
+from couchdbkit.designer import push
 
 import bcrypt
 
@@ -25,6 +25,12 @@ db = server.get_or_create_db(settings['couchdb.db'])
 
 User.set_db(db)
 Video.set_db(db)
+
+here = os.path.dirname(__file__)
+for view in ['video']:
+    path = os.path.join(here, 'couchdb', '_design', view)
+    push(path, db)
+
 
 @view_config(route_name='home', renderer='templates/home.pt', logged=False)
 def home(request):
@@ -58,15 +64,16 @@ def signin(request):
     request.session['username'] = user.name
     request.session['login'] = user._id
     request.session['isAdmin'] = user.isAdmin
-    print dir(request.session)
-    request.session.save()
 
     return HTTPFound(location=request.route_path('home'), headers=headers)
 
 
 @view_config(route_name='home', renderer='templates/logged.pt', logged=True)
 def logged(request):
-    return {}
+    videos = Video.view('video/all', limit=10,
+                        descending=True,
+                        skip=0)
+    return {'videos': videos}
 
 @view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
 def upload(request):
@@ -77,8 +84,8 @@ def upload(request):
 def uploading(request):
     title = request.POST.get('title', '')
     description = request.POST.get('description', '')
-    owner = request.session.username
-    userid = request.session.login
+    owner = request.session['username']
+    userid = request.session['login']
 
     created = datetime.datetime.now()
 
@@ -88,7 +95,28 @@ def uploading(request):
                   userid=userid,
                   created=created)
     video.save()
-    video.put_attachment(request.POST['file'].file, 'video')
 
-    return {}
+    #todo secu
+    video.put_attachment(request.POST['file'].file, 'video', content_type="video/quicktime")
 
+    return HTTPFound(location=request.route_path('video', id=video._id))
+
+@view_config(route_name='video', renderer='templates/video.pt', logged=True, request_method="GET")
+def video(request):
+    try:
+        video = Video.get(request.matchdict['id'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        return HTTPNotFound()
+
+
+    return {'video': video}
+
+
+
+@view_config(route_name='vuser', renderer='templates/logged.pt', logged=True,)
+def vuser(request):
+    videos = Video.view('video/vuser', limit=10,
+                        descending=True,
+                        skip=0,
+                        startkey=[request.matchdict['id'], {}],)
+    return {'videos': videos}
