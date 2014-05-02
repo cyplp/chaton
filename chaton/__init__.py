@@ -18,6 +18,8 @@ def main(global_config, **settings):
     config.add_route('upload', '/upload')
     config.add_route('video', '/video/{id}')
     config.add_route('vuser', '/vuser/{id}')
+    config.add_route('addtag', '/video/{id}/addtag')
+    config.add_route('tag', '/tag/{id}')
 
     get_current_registry().settings = settings
 

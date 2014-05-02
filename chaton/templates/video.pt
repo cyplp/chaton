@@ -7,6 +7,18 @@
 	<div><strong>Date :</strong> :${video.created}</div>
 	<div><strong>Description</strong> : ${video.description}</div>
 
+	<div>
+	  <strong>Tags :</strong>
+	  <tal:for repeat="tag video.tags">
+	    <a href="${request.route_path('tag', id=tag)}">${tag}</a>
+	  </tal:for>
+	</div>
+
+	<form class="form" method="POST" action="${request.route_path('addtag', id=video._id)}">
+	  <input type="text" name="tag"/>
+	  <button class="btn btn-success">Tag !</button>
+	</form>
+
       </div>
     </article>
   </div>

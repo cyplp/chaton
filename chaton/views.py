@@ -120,3 +120,28 @@ def vuser(request):
                         skip=0,
                         startkey=[request.matchdict['id'], {}],)
     return {'videos': videos}
+
+
+@view_config(route_name='addtag', logged=True, request_method="POST")
+def addtag(request):
+    try:
+        video = Video.get(request.matchdict['id'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        return HTTPNotFound()
+
+    tag = request.POST.get('tag', None)
+
+    if tag:
+        if tag not in video.tags:
+            video.tags.append(tag)
+            video.save()
+    return HTTPFound(location=request.route_path('video', id=video._id))
+
+
+@view_config(route_name='tag', renderer='templates/logged.pt', logged=True,)
+def tag(request):
+    videos = Video.view('video/tag', limit=10,
+                        descending=True,
+                        skip=0,
+                        startkey=[request.matchdict['id'], {}],)
+    return {'videos': videos}
