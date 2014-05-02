@@ -145,3 +145,14 @@ def tag(request):
                         skip=0,
                         startkey=[request.matchdict['id'], {}],)
     return {'videos': videos}
+
+
+@view_config(route_name="myaccount", renderer="templates/myaccount.pt", logged=True, request_method="GET")
+def myaccount(request):
+    try:
+        user = User.get(request.session['login'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        logger.info("%s unknown", request.session['login'])
+        return HTTPFound(location=request.route_path('home'))
+
+    return {'user': user}

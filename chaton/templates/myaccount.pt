@@ -1,0 +1,33 @@
+<metal:main use-macro="load: layout.pt" >
+  <div class="col-md-9" metal:fill-slot="content">
+    <article >
+      <div>
+	<div><strong>Name </strong> : ${user.name}</div>
+	<div><strong>Userid </strong> : ${user._id}</div>
+	<div><strong>Mail :</strong> :${user.mail}</div>
+	<div tal:condition="user.isAdmin">is Admin !!!</div>
+
+	<form class="form" method="POST" action="${request.route_path('myaccount')}">
+	  <div>
+	    <label for="old">Old password :</label>
+	    <input type="password" name="old"/>
+	  </div>
+	  <div>
+	    <label for="new">New password :</label>
+	    <input type="password" name="new"/>
+	  </div>
+	  <div>
+	    <label for="retype">retype password :</label>
+	    <input type="password" name="retype"/>
+	  </div>
+	  <button class="btn btn-success">update !</button>
+	</form>
+
+      </div>
+    </article>
+  </div>
+</metal:main>
+
+
+
+
