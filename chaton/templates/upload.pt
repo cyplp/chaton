@@ -1,0 +1,19 @@
+<metal:main use-macro="load: layout.pt" >
+  <div class="col-md-9" metal:fill-slot="content">
+    <article >
+      <form class="form" method="POST" action="${request.route_path('upload')}" enctype="multipart/form-data">
+	<label for="title">Title :</label>
+	<input name="title" type="text" />
+	<label for="file">Browse : </label>
+	<input type="file"  name="file"/>
+	<label for="description" > Description : </label>
+	<textarea name="description"></textarea>
+	<button name="btn btn-success"> Upload !</button>
+      </form>
+    </article>
+  </div>
+</metal:main>
+
+
+
+

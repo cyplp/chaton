@@ -1,0 +1,17 @@
+<metal:main use-macro="load: layout.pt" >
+  <div class="col-md-9" metal:fill-slot="content">
+    <article >
+      <div>
+	<div><strong>Title </strong> : ${video.title}</div>
+	<div><strong>From </strong> : ${video.owner}</div>
+	<div><strong>Date :</strong> :${video.created}</div>
+	<div><strong>Description</strong> : ${video.description}</div>
+
+      </div>
+    </article>
+  </div>
+</metal:main>
+
+
+
+
