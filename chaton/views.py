@@ -156,3 +156,41 @@ def myaccount(request):
         return HTTPFound(location=request.route_path('home'))
 
     return {'user': user}
+
+@view_config(route_name="myaccount", logged=True, request_method="POST")
+def updatemyaccount(request):
+    try:
+        user = User.get(request.session['login'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        logger.info("%s unknown", request.session['login'])
+        return HTTPFound(location=request.route_path('home'))
+
+    password = request.POST.get('password', None)
+
+    if not password:
+        logger.info("no password")
+        return HTTPFound(location=request.route_path('home'))
+
+    new = request.POST.get('new', None)
+    retype = request.POST.get('retype', None)
+
+    if not new:
+        logger.info("no new")
+        return HTTPFound(location=request.route_path('home'))
+
+    if new != retype:
+        logger.info("new != type")
+        return HTTPFound(location=request.route_path('home'))
+
+
+    if bcrypt.hashpw(password.encode('utf-8'),
+                     user.password) != user.password:
+        logger.info("password false")
+
+        return HTTPFound(location=request.route_path('home'))
+
+
+    user.password = bcrypt.hashpw(new, bcrypt.gensalt())
+    user.save()
+
+    return HTTPFound(location=request.route_path('myaccount'))

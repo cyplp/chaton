@@ -37,7 +37,7 @@ def addUser():
 
     admin = args.admin.lower() == 'true'
     password = bcrypt.hashpw(args.password.encode('utf-8'),
-    bcrypt.gensalt())
+                             bcrypt.gensalt())
     user = User(password=password,
                 name=args.name,
                 mail=args.userid,

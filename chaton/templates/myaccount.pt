@@ -10,7 +10,7 @@
 	<form class="form" method="POST" action="${request.route_path('myaccount')}">
 	  <div>
 	    <label for="old">Old password :</label>
-	    <input type="password" name="old"/>
+	    <input type="password" name="password"/>
 	  </div>
 	  <div>
 	    <label for="new">New password :</label>
