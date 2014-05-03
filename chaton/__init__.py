@@ -19,6 +19,7 @@ def main(global_config, **settings):
     config.add_route('video', '/video/{id}')
     config.add_route('vuser', '/vuser/{id}')
     config.add_route('addtag', '/video/{id}/addtag')
+    config.add_route('addcomment', '/video/{id}/addcomment')
     config.add_route('tag', '/tag/{id}')
     config.add_route('myaccount', '/myaccount')
 

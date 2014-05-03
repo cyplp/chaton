@@ -15,6 +15,7 @@ import bcrypt
 
 from chaton.models import User
 from chaton.models import Video
+from chaton.models import Comment
 
 logger = logging.getLogger('view')
 
@@ -25,6 +26,7 @@ db = server.get_or_create_db(settings['couchdb.db'])
 
 User.set_db(db)
 Video.set_db(db)
+Comment.set_db(db)
 
 here = os.path.dirname(__file__)
 for view in ['video']:
@@ -194,3 +196,29 @@ def updatemyaccount(request):
     user.save()
 
     return HTTPFound(location=request.route_path('myaccount'))
+
+@view_config(route_name='addcomment', logged=True, request_method="POST")
+def addcomment(request):
+    try:
+        video = Video.get(request.matchdict['id'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        return HTTPNotFound()
+
+    commentContent = request.POST.get('comment', None)
+
+    if commentContent:
+
+        now = datetime.datetime.now()
+
+        comment = Comment(owner=request.session['username'],
+                          userid=request.session['login'],
+                          created=now,
+                          videoid=request.matchdict['id'],
+                          content=commentContent.strip(),
+                          )
+        comment.save()
+
+        video.comments.append(comment._id)
+        video.save()
+
+    return HTTPFound(location=request.route_path('video', id=video._id))

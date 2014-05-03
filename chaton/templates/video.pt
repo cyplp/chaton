@@ -19,6 +19,10 @@
 	  <button class="btn btn-success">Tag !</button>
 	</form>
 
+	<form class="form" method="POST" action="${request.route_path('addcomment', id=video._id)}">
+	  <textarea name="comment"></textarea>
+	  <button class="btn btn-success">Comment !</button>
+	</form>
       </div>
     </article>
   </div>
