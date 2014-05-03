@@ -22,6 +22,7 @@ def main(global_config, **settings):
     config.add_route('addcomment', '/video/{id}/addcomment')
     config.add_route('tag', '/tag/{id}')
     config.add_route('myaccount', '/myaccount')
+    config.add_route('myvideos', '/myvideos')
 
     get_current_registry().settings = settings
 

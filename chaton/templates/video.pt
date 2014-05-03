@@ -23,6 +23,21 @@
 	  <textarea name="comment"></textarea>
 	  <button class="btn btn-success">Comment !</button>
 	</form>
+
+	<div tal:repeat="comment comments">
+	  <div class="comment">
+	    <strong>From : </strong>
+	    <a href="${request.route_path('vuser', id=comment.userid)}">
+	      ${comment.owner}
+	    </a>
+	  </div>
+	  <div>
+	    <strong>At : </strong> ${comment.created}
+	  </div>
+	  <div>
+	    ${comment.content}
+	  </div>
+	</div>
       </div>
     </article>
   </div>

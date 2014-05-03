@@ -29,7 +29,7 @@ Video.set_db(db)
 Comment.set_db(db)
 
 here = os.path.dirname(__file__)
-for view in ['video']:
+for view in ['video', 'comment']:
     path = os.path.join(here, 'couchdb', '_design', view)
     push(path, db)
 
@@ -110,8 +110,13 @@ def video(request):
     except couchdbkit.exceptions.ResourceNotFound:
         return HTTPNotFound()
 
+    comments = Comment.view('comment/video',
+                            descending=True,
+                            skip=0,
+                            startkey=[request.matchdict['id'], {}]
+        )
 
-    return {'video': video}
+    return {'video': video, 'comments': comments}
 
 
 
