@@ -227,3 +227,12 @@ def addcomment(request):
         video.save()
 
     return HTTPFound(location=request.route_path('video', id=video._id))
+
+
+@view_config(route_name='myvideos', renderer='templates/logged.pt', logged=True,)
+def myvideos(request):
+    videos = Video.view('video/vuser', limit=10,
+                        descending=True,
+                        skip=0,
+                        startkey=[request.session['login'], {}],)
+    return {'videos': videos}

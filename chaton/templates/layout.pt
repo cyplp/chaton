@@ -40,6 +40,11 @@
 	    <a href="${request.route_path('myaccount')}" i18n:translate='' class="new">My account</a>
 	  </li>
 	</ul>
+	<ul class="nav nav-tabs nav-stacked">
+	  <li tal:condition='request.path != "/myvideos"'>
+	    <a href="${request.route_path('myvideos')}" i18n:translate='' class="new">My videos</a>
+	  </li>
+	</ul>
 
       </nav>
 
