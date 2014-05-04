@@ -7,6 +7,7 @@
 	<div><strong>Date :</strong> :${video.created}</div>
 	<div><strong>Description</strong> : ${video.description}</div>
 
+	<div><a class="btn btn-success" href="${request.route_path('stream', id=video._id)}">Download</a></div>
 	<div>
 	  <strong>Tags :</strong>
 	  <tal:for repeat="tag video.tags">

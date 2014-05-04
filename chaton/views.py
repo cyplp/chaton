@@ -7,6 +7,7 @@ from pyramid.threadlocal import get_current_registry
 from pyramid.security import remember
 from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.response import Response
 
 import couchdbkit
 from couchdbkit.designer import push
@@ -236,3 +237,14 @@ def myvideos(request):
                         skip=0,
                         startkey=[request.session['login'], {}],)
     return {'videos': videos}
+
+
+@view_config(route_name='stream', logged=True, request_method="GET")
+def stream(request):
+    try:
+        video = Video.get(request.matchdict['id'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        return HTTPNotFound()
+
+    response = Response(content_type="video/quicktime", body=video.fetch_attachment('video', stream=False))
+    return response
