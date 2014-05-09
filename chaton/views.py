@@ -246,5 +246,6 @@ def stream(request):
     except couchdbkit.exceptions.ResourceNotFound:
         return HTTPNotFound()
 
-    response = Response(content_type="video/quicktime", body=video.fetch_attachment('video', stream=False))
+    response = Response(content_type=video._attachments['video']['content_type'],
+                        body=video.fetch_attachment('video', stream=False))
     return response

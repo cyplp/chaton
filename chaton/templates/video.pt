@@ -6,8 +6,10 @@
 	<div><strong>From </strong> : ${video.owner}</div>
 	<div><strong>Date :</strong> :${video.created}</div>
 	<div><strong>Description</strong> : ${video.description}</div>
-
+	<div><strong>Type</strong> : ${video._attachments['video']['content_type']}</div>
 	<div><a class="btn btn-success" href="${request.route_path('stream', id=video._id)}">Download</a></div>
+	<video src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;">
+	</video>
 	<div>
 	  <strong>Tags :</strong>
 	  <tal:for repeat="tag video.tags">
@@ -26,7 +28,7 @@
 	</form>
 
 	<div tal:repeat="comment comments">
-	  <div class="comment">
+	  <div class="comment" style="padding: 2ex">
 	    <strong>From : </strong>
 	    <a href="${request.route_path('vuser', id=comment.userid)}">
 	      ${comment.owner}
