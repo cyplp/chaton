@@ -24,30 +24,30 @@
     </div>
 
     <div class="row">
-      <nav class="col-md-2">
+      <nav class="col-md-2" tal:condition="login in request.session">
 	<ul class="nav nav-tabs nav-stacked">
-	  <li tal:condition='request.path != "/"'>
-	    <a href="${request.route_path('home')}" i18n:translate='' class="new">Home</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li tal:condition='request.path != "/upload"'>
-	    <a href="${request.route_path('upload')}" i18n:translate='' class="new">Upload a video</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li tal:condition='request.path != "/myaccount"'>
-	    <a href="${request.route_path('myaccount')}" i18n:translate='' class="new">My account</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li tal:condition='request.path != "/myvideos"'>
-	    <a href="${request.route_path('myvideos')}" i18n:translate='' class="new">My videos</a>
+	  <li>
+	    <a href="${request.route_path('home')}" i18n:translate='' >Home</a>
 	  </li>
 	</ul>
 	<ul class="nav nav-tabs nav-stacked">
 	  <li>
-	    <a href="${request.route_path('logout')}" i18n:translate='' class="new">Logout</a>
+	    <a href="${request.route_path('upload')}" i18n:translate='' >Upload a video</a>
+	  </li>
+	</ul>
+	<ul class="nav nav-tabs nav-stacked">
+	  <li>
+	    <a href="${request.route_path('myaccount')}" i18n:translate='' >My account</a>
+	  </li>
+	</ul>
+	<ul class="nav nav-tabs nav-stacked">
+	  <li>
+	    <a href="${request.route_path('myvideos')}" i18n:translate='' >My videos</a>
+	  </li>
+	</ul>
+	<ul class="nav nav-tabs nav-stacked">
+	  <li>
+	    <a href="${request.route_path('logout')}" i18n:translate='' >Logout</a>
 	  </li>
 	</ul>
       </nav>
