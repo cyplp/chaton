@@ -8,6 +8,9 @@
 	<div><strong>Description</strong> : ${video.description}</div>
 	<div><strong>Type</strong> : ${video._attachments['video']['content_type']}</div>
 	<div><a class="btn btn-success" href="${request.route_path('stream', id=video._id)}">Download</a></div>
+	<div tal:condition="(request.session['login'] == video.userid) or request.session['isAdmin']">
+	  <a class="btn btn-danger" href="${request.route_path('delete', id=video._id)}">Delete</a>
+	</div>
 	<video src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;">
 	</video>
 	<div>

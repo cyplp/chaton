@@ -1,3 +1,4 @@
+
 import logging
 import datetime
 import os.path
@@ -5,6 +6,7 @@ import os.path
 from pyramid.view import view_config
 from pyramid.threadlocal import get_current_registry
 from pyramid.security import remember
+from pyramid.security import forget
 from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import Response
@@ -68,6 +70,11 @@ def signin(request):
     request.session['login'] = user._id
     request.session['isAdmin'] = user.isAdmin
 
+    if request.session['previous']:
+        url = request.session['previous']
+        del(request.session['previous'])
+        return HTTPFound(location=url, headers=headers)
+
     return HTTPFound(location=request.route_path('home'), headers=headers)
 
 
@@ -119,6 +126,17 @@ def video(request):
 
     return {'video': video, 'comments': comments}
 
+@view_config(route_name='delete', logged=True, request_method="GET")
+def delete(request):
+    try:
+        video = Video.get(request.matchdict['id'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        return HTTPNotFound()
+
+    video.delete()
+
+
+    return HTTPFound(location=request.route_path("home"))
 
 
 @view_config(route_name='vuser', renderer='templates/logged.pt', logged=True,)
@@ -249,3 +267,25 @@ def stream(request):
     response = Response(content_type=video._attachments['video']['content_type'],
                         body=video.fetch_attachment('video', stream=False))
     return response
+
+@view_config(route_name='video', logged=False)
+@view_config(route_name='addtag', logged=False)
+@view_config(route_name='tag', logged=False,)
+@view_config(route_name='addcomment', logged=False)
+@view_config(route_name='myvideos', logged=False)
+@view_config(route_name="logout", logged=False)
+@view_config(route_name='stream', logged=False)
+@view_config(route_name='upload', logged=False)
+@view_config(route_name="myaccount", logged=False)
+def ooops(request):
+    request.session['previous'] = request.url
+    return HTTPFound(location=request.route_path('home'))
+
+@view_config(route_name="logout", logged=True)
+def logout(request):
+    headers = forget(request)
+    del(request.session['username'])
+    del(request.session['login'])
+    del(request.session['isAdmin'])
+
+    return HTTPFound(location=request.route_path("home"), headers=headers)
