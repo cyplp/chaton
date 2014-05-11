@@ -70,10 +70,11 @@ def signin(request):
     request.session['login'] = user._id
     request.session['isAdmin'] = user.isAdmin
 
-    if request.session['previous']:
-        url = request.session['previous']
-        del(request.session['previous'])
-        return HTTPFound(location=url, headers=headers)
+    if 'previous' in request.session:
+        if request.session['previous']:
+            url = request.session['previous']
+            del(request.session['previous'])
+            return HTTPFound(location=url, headers=headers)
 
     return HTTPFound(location=request.route_path('home'), headers=headers)
 

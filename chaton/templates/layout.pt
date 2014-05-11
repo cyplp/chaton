@@ -24,7 +24,7 @@
     </div>
 
     <div class="row">
-      <nav class="col-md-2" tal:condition="login in request.session">
+      <nav class="col-md-2" tal:condition="'login' in request.session">
 	<ul class="nav nav-tabs nav-stacked">
 	  <li>
 	    <a href="${request.route_path('home')}" i18n:translate='' >Home</a>
