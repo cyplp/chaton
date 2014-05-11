@@ -264,9 +264,13 @@ def stream(request):
         video = Video.get(request.matchdict['id'])
     except couchdbkit.exceptions.ResourceNotFound:
         return HTTPNotFound()
+    body = video.fetch_attachment('video', stream=True)
 
     response = Response(content_type=video._attachments['video']['content_type'],
-                        body=video.fetch_attachment('video', stream=False))
+                        body_file=body,
+                        content_length=video._attachments['video']['length'],
+                        content_md5=video._attachments['video']['digest'])
+
     return response
 
 @view_config(route_name='video', logged=False)
