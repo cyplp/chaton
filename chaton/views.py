@@ -261,14 +261,14 @@ def myvideos(request):
                         descending=True,
                         skip=0,
                         startkey=[request.session['login'], {}],
-                        endkey=[request.matchdict['login']])
+                        endkey=[request.session['login']])
     return {'videos': videos}
 
 
 @view_config(route_name='stream', logged=True, request_method="GET")
 def stream(request):
     try:
-        video = Video.get(request.matchdict['id'])
+        Video.get(request.matchdict['id'])
     except couchdbkit.exceptions.ResourceNotFound:
         return HTTPNotFound()
     #body = video.fetch_attachment('video', stream=True)
