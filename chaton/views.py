@@ -109,7 +109,6 @@ def uploading(request):
 
     #todo secu
     video.put_attachment(request.POST['file'].file, 'video', content_type="video/quicktime")
-
     return HTTPFound(location=request.route_path('video', id=video._id))
 
 @view_config(route_name='video', renderer='templates/video.pt', logged=True, request_method="GET")
@@ -264,14 +263,18 @@ def stream(request):
         video = Video.get(request.matchdict['id'])
     except couchdbkit.exceptions.ResourceNotFound:
         return HTTPNotFound()
-    body = video.fetch_attachment('video', stream=True)
+    #body = video.fetch_attachment('video', stream=True)
 
-    response = Response(content_type=video._attachments['video']['content_type'],
-                        body_file=body,
-                        content_length=video._attachments['video']['length'],
-                        content_md5=video._attachments['video']['digest'])
+    #response = Response(body_file=body,)
+    #return response
+
+    response = request.response
+    headers = response.headers
+
+    headers['X-Accel-Redirect'] =  str('/couch/%s/video' % request.matchdict['id'])
 
     return response
+
 
 @view_config(route_name='video', logged=False)
 @view_config(route_name='addtag', logged=False)
