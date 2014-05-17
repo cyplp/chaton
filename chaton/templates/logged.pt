@@ -4,7 +4,7 @@
       So many things to do !
 
       <div class="video" tal:repeat="video videos">
-	<div><a href="${request.route_path('video', id=video._id)}"> ${video.title}</a></div>
+	<div><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>
 	<div><a href="${request.route_path('vuser', id=video.userid)}">${video.owner}</a></div>
 	<div><strong>Date :</strong> :${video.created}</div>
 
