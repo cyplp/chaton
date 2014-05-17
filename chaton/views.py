@@ -125,8 +125,9 @@ def video(request):
     comments = Comment.view('comment/video',
                             descending=True,
                             skip=0,
-                            startkey=[request.matchdict['id'], {}]
-        )
+                            startkey=[request.matchdict['id'], {}],
+                            endkey=[request.matchdict['id']]
+                            )
 
     return {'video': video, 'comments': comments}
 
@@ -148,7 +149,8 @@ def vuser(request):
     videos = Video.view('video/vuser', limit=10,
                         descending=True,
                         skip=0,
-                        startkey=[request.matchdict['id'], {}],)
+                        startkey=[request.matchdict['id'], {}],
+                        endkey=[request.matchdict['id']])
     return {'videos': videos}
 
 
@@ -173,7 +175,8 @@ def tag(request):
     videos = Video.view('video/tag', limit=10,
                         descending=True,
                         skip=0,
-                        startkey=[request.matchdict['id'], {}],)
+                        startkey=[request.matchdict['id'], {}],
+                        endkey=[request.matchdict['id']])
     return {'videos': videos}
 
 
@@ -257,7 +260,8 @@ def myvideos(request):
     videos = Video.view('video/vuser', limit=10,
                         descending=True,
                         skip=0,
-                        startkey=[request.session['login'], {}],)
+                        startkey=[request.session['login'], {}],
+                        endkey=[request.matchdict['login']])
     return {'videos': videos}
 
 
