@@ -22,6 +22,7 @@ requires = [
     'pyramid_mailer',
     'js.jquery',
     'fanstatic',
+    'python-magic'
     ]
 
 setup(name='chaton',

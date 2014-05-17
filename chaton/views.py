@@ -3,13 +3,14 @@ import logging
 import datetime
 import os.path
 
+import magic
+
 from pyramid.view import view_config
 from pyramid.threadlocal import get_current_registry
 from pyramid.security import remember
 from pyramid.security import forget
 from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPNotFound
-from pyramid.response import Response
 
 import couchdbkit
 from couchdbkit.designer import push
@@ -93,7 +94,7 @@ def upload(request):
 
 @view_config(route_name='upload', logged=True, request_method="POST")
 def uploading(request):
-    title = request.POST.get('title', '')
+    title = request.POST.get('title', 'Sans titre')
     description = request.POST.get('description', '')
     owner = request.session['username']
     userid = request.session['login']
@@ -107,8 +108,11 @@ def uploading(request):
                   created=created)
     video.save()
 
-    #todo secu
-    video.put_attachment(request.POST['file'].file, 'video', content_type="video/quicktime")
+    mime = magic.from_buffer(request.POST['file'].file.read(1024), mime=True)
+    request.POST['file'].file.seek(0)
+
+    #todo secu ???
+    video.put_attachment(request.POST['file'].file, 'video', content_type=mime)
     return HTTPFound(location=request.route_path('video', id=video._id))
 
 @view_config(route_name='video', renderer='templates/video.pt', logged=True, request_method="GET")
