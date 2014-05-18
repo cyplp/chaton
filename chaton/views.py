@@ -38,9 +38,27 @@ for view in ['video', 'comment']:
     push(path, db)
 
 
+def computeSkip(request):
+    limit = 20
+    page = int(request.GET.get('page', 0))
+    skip = page * limit
+
+    return skip, limit
+
+def computeNextAndPrevious(request, view):
+    limit = 20
+    page = int(request.GET.get('page', 0))
+    skip = page * limit
+
+    previous = page is not 0
+    following = skip + limit < view.total_rows
+
+    return previous, following
+
 @view_config(route_name='home', renderer='templates/home.pt', logged=False)
 def home(request):
     login = request.POST.get('login', '')
+
     return {'project': 'chaton',
             'login': login}
 
@@ -82,10 +100,16 @@ def signin(request):
 
 @view_config(route_name='home', renderer='templates/logged.pt', logged=True)
 def logged(request):
-    videos = Video.view('video/all', limit=10,
+    skip, limit = computeSkip(request)
+
+    videos = Video.view('video/all', limit=limit,
                         descending=True,
-                        skip=0)
-    return {'videos': videos}
+                        skip=skip)
+
+
+    previous, following = computeNextAndPrevious(request, videos)
+
+    return {'videos': videos, 'previous': previous, 'following': following}
 
 @view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
 def upload(request):
@@ -144,14 +168,19 @@ def delete(request):
     return HTTPFound(location=request.route_path("home"))
 
 
-@view_config(route_name='vuser', renderer='templates/logged.pt', logged=True,)
+@view_config(route_name='vuser', renderer='templates/videos.pt', logged=True,)
 def vuser(request):
-    videos = Video.view('video/vuser', limit=10,
+    skip, limit = computeSkip(request)
+
+    videos = Video.view('video/vuser', limit=limit,
                         descending=True,
-                        skip=0,
+                        skip=skip,
                         startkey=[request.matchdict['id'], {}],
                         endkey=[request.matchdict['id']])
-    return {'videos': videos}
+
+    previous, following = computeNextAndPrevious(request, videos)
+
+    return {'videos': videos, 'previous': previous, 'following': following}
 
 
 @view_config(route_name='addtag', logged=True, request_method="POST")
@@ -170,14 +199,19 @@ def addtag(request):
     return HTTPFound(location=request.route_path('video', id=video._id))
 
 
-@view_config(route_name='tag', renderer='templates/logged.pt', logged=True,)
+@view_config(route_name='tag', renderer='templates/videos.pt', logged=True,)
 def tag(request):
-    videos = Video.view('video/tag', limit=10,
+
+    skip, limit = computeSkip(request)
+
+    videos = Video.view('video/tag', limit=limit,
                         descending=True,
-                        skip=0,
+                        skip=skip,
                         startkey=[request.matchdict['id'], {}],
                         endkey=[request.matchdict['id']])
-    return {'videos': videos}
+
+    previous, following = computeNextAndPrevious(request, videos)
+    return {'videos': videos, 'previous': previous, 'following': following}
 
 
 @view_config(route_name="myaccount", renderer="templates/myaccount.pt", logged=True, request_method="GET")
@@ -257,12 +291,18 @@ def addcomment(request):
 
 @view_config(route_name='myvideos', renderer='templates/logged.pt', logged=True,)
 def myvideos(request):
-    videos = Video.view('video/vuser', limit=10,
+    skip, limit = computeSkip(request)
+
+
+    videos = Video.view('video/vuser', limit=limit,
                         descending=True,
-                        skip=0,
+                        skip=skip,
                         startkey=[request.session['login'], {}],
                         endkey=[request.session['login']])
-    return {'videos': videos}
+
+    previous, following = computeNextAndPrevious(request, videos)
+
+    return {'videos': videos, 'previous': previous, 'following': following}
 
 
 @view_config(route_name='stream', logged=True, request_method="GET")
