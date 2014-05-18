@@ -64,9 +64,9 @@ def addUser():
                 isAdmin=admin,
                 )
     user._id = args.userid
+
     user.save()
-    print template % (args.name.decode('utf-8'), config.get('app:main', 'public_url'),
-                               args.userid.decode('utf-8'), args.password, config.get('app:main', 'public_url'))
+
     msg = MIMEText(template % (args.name.decode('utf-8'), config.get('app:main', 'public_url'),
                                args.userid.decode('utf-8'), args.password, config.get('app:main', 'public_url')), 'plain', 'utf-8')
 
