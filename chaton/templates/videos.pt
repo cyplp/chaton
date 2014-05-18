@@ -9,13 +9,13 @@
 	<br/> <br/>
       </div>
       <div class="row">
-	<a tal:condition="previous" href="${request.route_path(request.matched_route.name, _query={'page': int(request.GET.get('page', 0))-1})}">
+	<a tal:condition="previous" href="${request.route_path(request.matched_route.name, id=request.matchdict['id'], _query={'page': int(request.GET.get('page', 0))-1})}">
 	  <i class="fa fa-arrow-left"></i>
 	  previous
 	</a>
-	<a tal:condition="following" href="${request.route_path(request.matched_route.name, _query={'page': int(request.GET.get('page', 0))+1})}">
-	  next
-	  <i class="fa fa-arrow-right"></i>
+	<a tal:condition="following" href="${request.route_path(request.matched_route.name, id=request.matchdict['id'], _query={'page': int(request.GET.get('page', 0))+1})}">
+	next
+	<i class="fa fa-arrow-right"></i>
 	</a>
       </div>
     </article>
