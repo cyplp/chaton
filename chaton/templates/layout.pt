@@ -8,58 +8,51 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
   </head>
   <body>
-    <article class="container">
-      <div class="navbar">
-	  <div class="container" >
+    <article class="container-fluid">
+
+      <div class="container">
+	<tal:message condition="request.session.peek_flash()">
+	  <div class="alert"
+	       tal:repeat="message request.session.pop_flash()">
+	    <button type="button" class="close" data-dismiss="alert">&times;</button>
+	    <tal:alert replace="structure message" />
 	  </div>
-	</div>
-    <div class="container">
-      <tal:message condition="request.session.peek_flash()">
-	<div class="alert"
-             tal:repeat="message request.session.pop_flash()">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <tal:alert replace="structure message" />
-	</div>
-      </tal:message>
-    </div>
+	</tal:message>
+      </div>
 
-    <div class="row">
-      <nav class="col-md-2" tal:condition="'login' in request.session">
-	<ul class="nav nav-tabs nav-stacked">
-	  <li>
-	    <a href="${request.route_path('home')}" i18n:translate='' >Home</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li>
-	    <a href="${request.route_path('upload')}" i18n:translate='' >Upload a video</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li>
-	    <a href="${request.route_path('myaccount')}" i18n:translate='' >My account</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li>
-	    <a href="${request.route_path('myvideos')}" i18n:translate='' >My videos</a>
-	  </li>
-	</ul>
-	<ul class="nav nav-tabs nav-stacked">
-	  <li>
-	    <a href="${request.route_path('logout')}" i18n:translate='' >Logout</a>
-	  </li>
-	</ul>
-      </nav>
+      <div class="row">
+	<nav class="col-md-2" tal:condition="'login' in request.session">
+	  <ul class="nav nav-tabs nav-stacked">
+	    <li>
+	      <a href="${request.route_path('home')}" i18n:translate='' >Home</a>
+	    </li>
+	  </ul>
+	  <ul class="nav nav-tabs nav-stacked">
+	    <li>
+	      <a href="${request.route_path('upload')}" i18n:translate='' >Upload a video</a>
+	    </li>
+	  </ul>
+	  <ul class="nav nav-tabs nav-stacked">
+	    <li>
+	      <a href="${request.route_path('myaccount')}" i18n:translate='' >My account</a>
+	    </li>
+	  </ul>
+	  <ul class="nav nav-tabs nav-stacked">
+	    <li>
+	      <a href="${request.route_path('myvideos')}" i18n:translate='' >My videos</a>
+	    </li>
+	  </ul>
+	  <ul class="nav nav-tabs nav-stacked">
+	    <li>
+	      <a href="${request.route_path('logout')}" i18n:translate='' >Logout</a>
+	    </li>
+	  </ul>
+	</nav>
 
-      <div id="content" metal:define-slot="content"></div>
+	<div id="content" metal:define-slot="content"></div>
 
-    </div>
-    <div id="pagination" metal:define-slot="pagination"></div>
+      </div>
 
     </article>
-
-
-
   </body>
 </html>

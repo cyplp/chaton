@@ -1,28 +1,34 @@
 <metal:main use-macro="load: layout.pt" >
   <div class="col-md-9" metal:fill-slot="content">
     <article >
-      <div>
-	<div><strong>Title </strong> : ${video.title}</div>
-	<div><strong>From </strong> : ${video.owner}</div>
-	<div><strong>Date :</strong> :${video.created}</div>
-	<div><strong>Description</strong> : ${video.description}</div>
-	<div><strong>Type</strong> : ${video._attachments['video']['content_type']}</div>
-	<div><a class="btn btn-success" href="${request.route_path('stream', id=video._id)}">Download</a></div>
-	<div tal:condition="(request.session['login'] == video.userid) or request.session['isAdmin']">
-	  <a class="btn btn-danger" href="${request.route_path('delete', id=video._id)}">Delete</a>
+      <div class="container">
+	<div class="row"><strong class="col-md-2">Title </strong> : ${video.title}</div>
+	<div class="row"><strong class="col-md-2">From </strong> : ${video.owner}</div>
+	<div class="row"><strong class="col-md-2">Date :</strong> :${video.created}</div>
+	<div class="row"><strong class="col-md-2">Description</strong> : ${video.description}</div>
+	<div class="row"><strong class="col-md-2">Type</strong> : ${video._attachments['video']['content_type']}</div>
+	<div class="row">
+	  <a class="btn btn-success cold-md-2" href="${request.route_path('stream', id=video._id)}">Download</a>
+	  <a tal:condition="(request.session['login'] == video.userid) or request.session['isAdmin']"
+	     class="btn btn-danger col-md-2"
+	     href="${request.route_path('delete', id=video._id)}">
+	    Delete
+	  </a>
 	</div>
 	<video src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;">
 	</video>
-	<div>
-	  <strong>Tags :</strong>
+	<div class="row" tal:condition="video.tags">
+	  <strong class="col-md-2">Tags :</strong>
 	  <tal:for repeat="tag video.tags">
 	    <a href="${request.route_path('tag', id=tag)}">${tag}</a>
 	  </tal:for>
 	</div>
 
 	<form class="form" method="POST" action="${request.route_path('addtag', id=video._id)}">
-	  <input type="text" name="tag"/>
-	  <button class="btn btn-success">Tag !</button>
+	  <div class="row">
+	  <input class="col-md-2" type="text" name="tag"/>
+	  <button class="btn btn-success col-md-2">Tag !</button>
+	  </div>
 	</form>
 
 	<form class="form" method="POST" action="${request.route_path('addcomment', id=video._id)}">
@@ -31,14 +37,14 @@
 	</form>
 
 	<div tal:repeat="comment comments">
-	  <div class="comment" style="padding: 2ex">
-	    <strong>From : </strong>
+	  <div class="comment row" style="padding: 2ex">
+	    <strong class="col-md-2">From : </strong>
 	    <a href="${request.route_path('vuser', id=comment.userid)}">
 	      ${comment.owner}
 	    </a>
 	  </div>
-	  <div>
-	    <strong>At : </strong> ${comment.created}
+	  <div class="row">
+	    <strong class="col-md-2">At : </strong> ${comment.created}
 	  </div>
 	  <div>
 	    ${comment.content}
