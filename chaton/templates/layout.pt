@@ -8,8 +8,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
   </head>
   <body>
-    <article class="container-fluid">
 
+    <article class="container-fluid">
       <div class="container">
 	<tal:message condition="request.session.peek_flash()">
 	  <div class="alert"

@@ -15,7 +15,7 @@
 	    Delete
 	  </a>
 	</div>
-	<video src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;">
+	<video class="row" src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;">
 	</video>
 	<div class="row" tal:condition="video.tags">
 	  <strong class="col-md-2">Tags :</strong>
