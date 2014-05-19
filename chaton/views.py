@@ -17,6 +17,9 @@ from couchdbkit.designer import push
 
 import bcrypt
 
+from kombu import Connection, Exchange, Queue
+
+
 from chaton.models import User
 from chaton.models import Video
 from chaton.models import Comment
@@ -36,6 +39,10 @@ here = os.path.dirname(__file__)
 for view in ['video', 'comment']:
     path = os.path.join(here, 'couchdb', '_design', view)
     push(path, db)
+
+
+exchange = Exchange(settings['rabbitmq.exchange.video'], 'direct', durable=True)
+queueMeta = Queue(settings['rabbitmq.queue.meta'], exchange=exchange, routing_key='video')
 
 
 def computeSkip(request):
@@ -137,6 +144,13 @@ def uploading(request):
 
     #todo secu ???
     video.put_attachment(request.POST['file'].file, 'video', content_type=mime)
+
+    with Connection(settings['rabbitmq.url']) as conn:
+        producer = conn.Producer(serializer='json')
+        producer.publish({'id': video._id},
+                         exchange=exchange, routing_key='video',
+                         declare=[queueMeta])
+
     return HTTPFound(location=request.route_path('video', id=video._id))
 
 @view_config(route_name='video', renderer='templates/video.pt', logged=True, request_method="GET")

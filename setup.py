@@ -22,7 +22,9 @@ requires = [
     'pyramid_mailer',
     'js.jquery',
     'fanstatic',
-    'python-magic'
+    'python-magic',
+    'hachoir-metadata',
+    'kombu',
     ]
 
 setup(name='chaton',
