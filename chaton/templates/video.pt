@@ -6,17 +6,21 @@
 	<div class="row"><strong class="col-md-2">From </strong> : ${video.owner}</div>
 	<div class="row"><strong class="col-md-2">Date :</strong> :${video.created}</div>
 	<div class="row"><strong class="col-md-2">Description</strong> : ${video.description}</div>
-	<div class="row"><strong class="col-md-2">Type</strong> : ${video._attachments['video']['content_type']}</div>
+	<div class="row" tal:condition="video._attachments">
+	<strong class="col-md-2">Type</strong> : ${video._attachments['video']['content_type']}</div>
 	<div class="row">
-	  <a class="btn btn-success cold-md-2" href="${request.route_path('stream', id=video._id)}">Download</a>
+	  <a class="btn btn-success cold-md-2" href="${request.route_path('stream', id=video._id)}" tal:condition="video._attachments">Download</a>
 	  <a tal:condition="(request.session['login'] == video.userid) or request.session['isAdmin']"
 	     class="btn btn-danger col-md-2"
 	     href="${request.route_path('delete', id=video._id)}">
 	    Delete
 	  </a>
 	</div>
-	<video class="row" src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;">
+	<video class="row" src="${request.route_path('stream', id=video._id)}" controls="true" style="height: 320px;" tal:condition="video._attachments">
 	</video>
+	<div tal:condition="video._attachments is None">
+	  <strong>Upload failed !</strong>
+	</div>
 	<div class="row" tal:condition="video.tags">
 	  <strong class="col-md-2">Tags :</strong>
 	  <tal:for repeat="tag video.tags">

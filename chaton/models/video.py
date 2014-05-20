@@ -10,3 +10,4 @@ class Video(couchdbkit.Document):
     tags = couchdbkit.StringListProperty()
     comments = couchdbkit.ListProperty()
     created = couchdbkit.DateTimeProperty()
+    metadata = couchdbkit.DictProperty()
