@@ -51,6 +51,7 @@ setup(name='chaton',
       [paste.app_factory]
       main = chaton:main
       [console_scripts]
-      aduser = chaton.utils:addUser
+      adduser = chaton.utils:addUser
+      metadata = chaton.metadatadaemon:main
       """,
       )
