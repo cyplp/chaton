@@ -31,7 +31,7 @@ def main():
 
 
     exchange = Exchange(config.get('app:main', 'rabbitmq.exchange.video'), 'direct', durable=True)
-    queueMeta = Queue(config.get('app:main', 'rabbitmq.queue.encode'), exchange=exchange, routing_key='video')
+    queueMeta = Queue(config.get('app:main', 'rabbitmq.queue.video'), exchange=exchange, routing_key='video')
 
     def todo(body, message):
         video = Video.get(body['id'])
