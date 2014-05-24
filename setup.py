@@ -53,5 +53,8 @@ setup(name='chaton',
       [console_scripts]
       adduser = chaton.utils:addUser
       metadata = chaton.metadatadaemon:main
+      encode = chaton.reencode:main
+      [fanstatic.libraries]
+      chaton = chaton.resources:library
       """,
       )
