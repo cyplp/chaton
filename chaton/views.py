@@ -44,7 +44,7 @@ for view in ['video', 'comment']:
 
 exchange = Exchange(settings['rabbitmq.exchange.video'], 'direct', durable=True)
 queueMeta = Queue(settings['rabbitmq.queue.meta'], exchange=exchange, routing_key='video')
-
+queueVideo = Queue(settings['rabbitmq.queue.video'], exchange=exchange, routing_key='video')
 
 def computeSkip(request):
     limit = 20
@@ -151,7 +151,7 @@ def uploading(request):
         producer = conn.Producer(serializer='json')
         producer.publish({'id': video._id},
                          exchange=exchange, routing_key='video',
-                         declare=[queueMeta])
+                         declare=[queueMeta, queueVideo])
 
     return HTTPFound(location=request.route_path('video', id=video._id))
 
