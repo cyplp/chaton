@@ -19,6 +19,7 @@ import bcrypt
 
 from kombu import Connection, Exchange, Queue
 
+from js.jquery_fileupload import jquery_fileupload
 
 from chaton.models import User
 from chaton.models import Video
@@ -120,6 +121,7 @@ def logged(request):
 
 @view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
 def upload(request):
+    jquery_fileupload.need()
     return {}
 
 
