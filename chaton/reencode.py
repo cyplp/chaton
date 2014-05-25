@@ -61,9 +61,20 @@ def main():
         with open(output.name, 'rb') as tmp:
             video.put_attachment(tmp, 'thumb/ogm', content_type=mime)
 
-
-        os.remove(vinput.name)
         os.remove(output.name)
+
+        output = NamedTemporaryFile(mode='wb', delete=False, suffix='.jpg')
+        output.close()
+
+        subprocess.call(['avconv', '-ss', '3', '-i', vinput.name, '-strict', 'experimental',
+                         '-y', '-vframes',  '1', '-s', '640x480', '-f', 'image2', output.name])
+
+        mime = magic.from_file(output.name, mime=True)
+        with open(output.name, 'rb') as tmp:
+            video.put_attachment(tmp, 'capture', content_type=mime)
+
+        os.remove(output.name)
+        os.remove(vinput.name)
 
         message.ack()
 
