@@ -329,10 +329,6 @@ def stream(request):
         Video.get(request.matchdict['id'])
     except couchdbkit.exceptions.ResourceNotFound:
         return HTTPNotFound()
-    #body = video.fetch_attachment('video', stream=True)
-
-    #response = Response(body_file=body,)
-    #return response
 
     response = request.response
     headers = response.headers
