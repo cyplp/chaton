@@ -44,7 +44,7 @@ def main():
         output = NamedTemporaryFile(mode='wb', delete=False, suffix='.mp4')
         output.close()
 
-        subprocess.call(['avconv', '-i', vinput.name, '-strict', 'experimental', '-y', output.name])
+        subprocess.call(['avconv', '-i', vinput.name, '-strict', 'experimental', '-y', '-s', '720x720', output.name])
 
         mime = magic.from_file(output.name, mime=True)
         with open(output.name, 'rb') as tmp:
@@ -55,7 +55,7 @@ def main():
         output = NamedTemporaryFile(mode='wb', delete=False, suffix='.ogv')
         output.close()
 
-        subprocess.call(['ffmpeg2theora',  vinput.name,  '-o', output.name])
+        subprocess.call(['ffmpeg2theora',  vinput.name,  '-x', '720', '-o', output.name])
 
         mime = magic.from_file(output.name, mime=True)
         with open(output.name, 'rb') as tmp:
