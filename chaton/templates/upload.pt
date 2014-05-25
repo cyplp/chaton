@@ -8,7 +8,7 @@
 	</div>
 	<div class="row">
 	  <label class="col-md-2" for="file">Browse : </label>
-	  <input type="file"  name="file"/>
+	  <input type="file" name="file" id="file"  multiple="false"/>
 	</div>
 	<div class="row">
 	  <label class="col-md-2" for="description" > Description : </label>

@@ -25,6 +25,8 @@ from chaton.models import User
 from chaton.models import Video
 from chaton.models import Comment
 
+from chaton.resources import uploadGroup
+
 logger = logging.getLogger('view')
 
 settings = get_current_registry().settings
@@ -121,7 +123,7 @@ def logged(request):
 
 @view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
 def upload(request):
-    jquery_fileupload.need()
+#    uploadGroup.need()
     return {}
 
 
