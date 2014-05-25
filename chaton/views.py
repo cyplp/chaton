@@ -337,7 +337,16 @@ def stream(request):
     response = request.response
     headers = response.headers
 
-    headers['X-Accel-Redirect'] =  str('/couch/%s/video' % request.matchdict['id'])
+    format_ = request.GET.get('format', None)
+
+    if not format_:
+        headers['X-Accel-Redirect'] =  str('/couch/%s/video' % request.matchdict['id'])
+
+    if format_ == 'mp4':
+        headers['X-Accel-Redirect'] =  str('/couch/%s/thumb%2fmp4' % request.matchdict['id'])
+
+    if format_ == 'ogm':
+        headers['X-Accel-Redirect'] =  str('/couch/%s/thumb%2fogm' % request.matchdict['id'])
 
     return response
 
