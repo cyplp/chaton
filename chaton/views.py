@@ -343,10 +343,10 @@ def stream(request):
         headers['X-Accel-Redirect'] =  str('/couch/%s/video' % request.matchdict['id'])
 
     if format_ == 'mp4':
-        headers['X-Accel-Redirect'] =  str('/couch/%s/thumb%2fmp4' % request.matchdict['id'])
+        headers['X-Accel-Redirect'] =  str('/couch/'+request.matchdict['id']+'/thumb%2fmp4')
 
     if format_ == 'ogm':
-        headers['X-Accel-Redirect'] =  str('/couch/%s/thumb%2fogm' % request.matchdict['id'])
+        headers['X-Accel-Redirect'] =  str('/couch/'+request.matchdict['id']+'/thumb%2fogm')
 
     return response
 
