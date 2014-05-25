@@ -24,7 +24,7 @@
 	       tal:condition="video._attachments">
 	  <source tal:condition="video._attachments['thumb/ogm']"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'ogm'})}"
-		  type="${video._attachments['thumb/ogm']['content_type']}" />
+		  type="video/ogg" />
 	  <source tal:condition="video._attachments['thumb/mp4']"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'mp4'})}"
 		  type="${video._attachments['thumb/mp4']['content_type']}" />
