@@ -17,7 +17,11 @@
 	  </a>
 	</div>
 	<video class="row"
-	       controls="true" style="height: 320px;" tal:condition="video._attachments">
+	       controls="true" style="height: 320px;"
+	       preload="auto"
+	       poster="${request.route_path('capture', id=video._id)}"
+
+	       tal:condition="video._attachments">
 	  <source tal:condition="video._attachments['thumb/ogm']"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'ogm'})}"
 		  type="${video._attachments['thumb/ogm']['content_type']}" />

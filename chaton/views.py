@@ -350,7 +350,21 @@ def stream(request):
 
     return response
 
+@view_config(route_name='capture', logged=True, request_method="GET")
+def capture(request):
+    try:
+        Video.get(request.matchdict['id'])
+    except couchdbkit.exceptions.ResourceNotFound:
+        return HTTPNotFound()
 
+    response = request.response
+    headers = response.headers
+
+    headers['X-Accel-Redirect'] =  str('/couch/%s/capture' % request.matchdict['id'])
+
+    return response
+
+@view_config(route_name='capture', logged=False,)
 @view_config(route_name='video', logged=False)
 @view_config(route_name='addtag', logged=False)
 @view_config(route_name='tag', logged=False,)
