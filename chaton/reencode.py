@@ -67,12 +67,9 @@ def main():
 
         message.ack()
 
-    print 4
     with Connection(config.get('app:main', 'rabbitmq.url')) as conn:
-        print 5
         with conn.Consumer(queueMeta, callbacks=[todo]) as consumer:
             # Process messages and handle events on all channels
-            print 6
             while True:
                 conn.drain_events()
 
