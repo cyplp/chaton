@@ -44,16 +44,28 @@ def main():
         output = NamedTemporaryFile(mode='wb', delete=False, suffix='.mp4')
         output.close()
 
-        subprocess.call(['avconv', '-i', vinput.name, '-strict', 'experimental',  output.name])
+        subprocess.call(['avconv', '-i', vinput.name, '-strict', 'experimental', '-y', output.name])
 
         mime = magic.from_file(output.name, mime=True)
         with open(output.name, 'rb') as tmp:
-            video.put_attachment(tmp, 'thumb', content_type=mime)
+            video.put_attachment(tmp, 'thumb/mp4', content_type=mime)
+
+        os.remove(output.name)
+
+        output = NamedTemporaryFile(mode='wb', delete=False, suffix='.ogv')
+        output.close()
+
+        subprocess.call(['ffmpeg2theora',  vinput.name,  '-o', output.name])
+
+        mime = magic.from_file(output.name, mime=True)
+        with open(output.name, 'rb') as tmp:
+            video.put_attachment(tmp, 'thumb/ogm', content_type=mime)
+
 
         os.remove(vinput.name)
         os.remove(output.name)
 
-        #message.ack()
+        message.ack()
 
     print 4
     with Connection(config.get('app:main', 'rabbitmq.url')) as conn:
