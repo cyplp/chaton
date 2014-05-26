@@ -1,9 +1,10 @@
 .videos{
     display:flex;
     flex-wrap: wrap;
+    align-items: stretch;
 }
 
-.video { margin:2em;
+.video { margin:2em 2em 7em;
 	 float:left;
 	 position:relative;
 	 max-width:150px;
@@ -25,4 +26,8 @@ div.description{
 .description_content{
     padding:10px;
     margin:0px;
+}
+
+.owner {
+    font-size:smaller;
 }
