@@ -16,19 +16,22 @@
 	    Delete
 	  </a>
 	</div>
+
 	<video class="row"
 	       controls="true" style="height: 320px;"
 	       preload="auto"
 	       poster="${request.route_path('capture', id=video._id)}"
-
 	       tal:condition="video._attachments">
+
 	  <source tal:condition="'thumb/ogm' in video._attachments"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'ogm'})}"
 		  type="video/ogg" />
+
 	  <source tal:condition="'thumb/mp4' in video._attachments"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'mp4'})}"
 		  type="${video._attachments['thumb/mp4']['content_type']}" />
 	</video>
+
 	<div tal:condition="video._attachments is None">
 	  <strong>Upload failed !</strong>
 	</div>

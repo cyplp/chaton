@@ -7,7 +7,7 @@
 	    <div class="description">
 	      <div class="description_content"><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>
 	      <div class="description_content"><a href="${request.route_path('vuser', id=video.userid)}">${video.owner}</a></div>
-	      <div class="description_content"><strong>Date :</strong> :${video.created}</div>
+	      <!-- <div class="description_content"><strong>Date :</strong> :${video.created}</div> -->
 	    </div>
 	  </img>
 	</div>
