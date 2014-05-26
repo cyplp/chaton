@@ -22,10 +22,10 @@
 	       poster="${request.route_path('capture', id=video._id)}"
 
 	       tal:condition="video._attachments">
-	  <source tal:condition="video._attachments['thumb/ogm']"
+	  <source tal:condition="'thumb/ogm' in video._attachments"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'ogm'})}"
 		  type="video/ogg" />
-	  <source tal:condition="video._attachments['thumb/mp4']"
+	  <source tal:condition="'thumb/mp4' in video._attachments"
 		  src="${request.route_path('stream', id=video._id, _query={'format': 'mp4'})}"
 		  type="${video._attachments['thumb/mp4']['content_type']}" />
 	</video>
