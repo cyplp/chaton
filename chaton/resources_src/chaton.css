@@ -20,7 +20,7 @@ div.description{
     opacity:0.6; /* transparency */
     filter:alpha(opacity=60); /* IE transparency */
 }
-p.description_content{
+.description_content{
     padding:10px;
     margin:0px;
 }
