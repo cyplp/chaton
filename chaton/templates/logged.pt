@@ -2,7 +2,7 @@
   <div class="col-md-9" metal:fill-slot="content">
     <article>
       <div class="videos">
-	<div class='video' tal:repeat="video videos">
+	<div class='video' tal:repeat="video videos" >
 	  <img src="${request.route_path('capture', id=video._id)}">
 	    <div class="description">
 	      <div class="description_content"><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>

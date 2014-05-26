@@ -6,6 +6,8 @@
 .video { margin:2em;
 	 float:left;
 	 position:relative;
+	 max-width:150px;
+	 max-height: 100px;
        }
 div.description{
     position:absolute; /* absolute position (so we can position it where we want)*/
