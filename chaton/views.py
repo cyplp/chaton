@@ -26,6 +26,7 @@ from chaton.models import Video
 from chaton.models import Comment
 
 from chaton.resources import uploadGroup
+from chaton.resources import cssGroup
 
 logger = logging.getLogger('view')
 
@@ -110,6 +111,7 @@ def signin(request):
 
 @view_config(route_name='home', renderer='templates/logged.pt', logged=True)
 def logged(request):
+    cssGroup.need()
     skip, limit = computeSkip(request)
 
     videos = Video.view('video/all', limit=limit,

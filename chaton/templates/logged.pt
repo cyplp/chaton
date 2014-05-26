@@ -1,12 +1,13 @@
 <metal:main use-macro="load: layout.pt" >
   <div class="col-md-9" metal:fill-slot="content">
-    <article >
-      <div class="video" tal:repeat="video videos">
-	<div><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>
-	<div><a href="${request.route_path('vuser', id=video.userid)}">${video.owner}</a></div>
-	<div><strong>Date :</strong> :${video.created}</div>
-
-	<br/> <br/>
+    <article>
+      <div class="videos">
+	<div class='video' tal:repeat="video videos">
+	  <div><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>
+	  <div><a href="${request.route_path('vuser', id=video.userid)}">${video.owner}</a></div>
+	  <div><strong>Date :</strong> :${video.created}</div>
+	  <br/> <br/>
+	</div>
       </div>
       <div class="row">
 	<a tal:condition="previous" href="${request.route_path(request.matched_route.name, _query={'page': int(request.GET.get('page', 0))-1})}">

@@ -1,0 +1,6 @@
+.videos{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.video { margin:2em;}
