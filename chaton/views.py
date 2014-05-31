@@ -125,6 +125,7 @@ def logged(request):
 @view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
 def upload(request):
     uploadGroup.need()
+    cssGroup.need()
     return {}
 
 

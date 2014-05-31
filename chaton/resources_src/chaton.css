@@ -31,3 +31,5 @@ div.description{
 .owner {
     font-size:smaller;
 }
+
+#progress {display: none};
