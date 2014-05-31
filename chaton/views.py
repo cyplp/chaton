@@ -19,7 +19,6 @@ import bcrypt
 
 from kombu import Connection, Exchange, Queue
 
-from js.jquery_fileupload import jquery_fileupload
 
 from chaton.models import User
 from chaton.models import Video
@@ -125,11 +124,11 @@ def logged(request):
 
 @view_config(route_name='upload', renderer='templates/upload.pt', logged=True, request_method="GET")
 def upload(request):
-#    uploadGroup.need()
+    uploadGroup.need()
     return {}
 
 
-@view_config(route_name='upload', logged=True, request_method="POST")
+@view_config(route_name='upload', logged=True, request_method="POST", xhr=True, renderer='json')
 def uploading(request):
     title = request.POST.get('title', 'Sans titre')
     description = request.POST.get('description', '')
@@ -157,7 +156,8 @@ def uploading(request):
                          exchange=exchange, routing_key='video',
                          declare=[queueMeta, queueVideo])
 
-    return HTTPFound(location=request.route_path('video', id=video._id))
+
+    return {'id': video._id}
 
 @view_config(route_name='video', renderer='templates/video.pt', logged=True, request_method="GET")
 def video(request):
@@ -187,7 +187,6 @@ def delete(request):
 
     return HTTPFound(location=request.route_path("home"))
 
-
 @view_config(route_name='vuser', renderer='templates/videos.pt', logged=True,)
 def vuser(request):
     skip, limit = computeSkip(request)
@@ -201,7 +200,6 @@ def vuser(request):
     previous, following = computeNextAndPrevious(request, videos)
 
     return {'videos': videos, 'previous': previous, 'following': following}
-
 
 @view_config(route_name='addtag', logged=True, request_method="POST")
 def addtag(request):
