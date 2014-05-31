@@ -34,7 +34,11 @@ def main():
     queueMeta = Queue(config.get('app:main', 'rabbitmq.queue.video'), exchange=exchange, routing_key='video')
 
     def todo(body, message):
-        video = Video.get(body['id'])
+	try:
+            video = Video.get(body['id'])
+	except couchdbkit.exceptions.ResourceNotFound:
+	    message.ack()
+	    return
 
         vinput = NamedTemporaryFile(mode='wb', delete=False)
 
