@@ -1,21 +1,24 @@
 <metal:main use-macro="load: layout.pt" >
   <div class="col-md-9" metal:fill-slot="content">
     <article class="container">
-      <form class="form" method="POST" action="${request.route_path('upload')}" enctype="multipart/form-data">
+      <form id='formMeta' class="form" method="POST" action="${request.route_path('upload')}" enctype="multipart/form-data">
 	<div class="row">
 	  <label class="col-md-2" for="title">Title :</label>
-	  <input name="title" type="text" />
+	  <input id="title" name="title" type="text" />
+	</div>
+
+	<div class="row">
+	  <label class="col-md-2" for="description" > Description : </label>
+	  <textarea id="description" name="description"></textarea>
 	</div>
 	<div class="row">
 	  <label class="col-md-2" for="file">Browse : </label>
 	  <input type="file" name="file" id="file"  multiple="false"/>
 	</div>
-	<div class="row">
-	  <label class="col-md-2" for="description" > Description : </label>
-	  <textarea name="description"></textarea>
-	</div>
-	<button name="btn btn-success"> Upload !</button>
       </form>
+      <button id="goUpload" name="btn btn-success">Upload !</button>
+
+      <progress id="progress"></progress>
     </article>
   </div>
 </metal:main>
