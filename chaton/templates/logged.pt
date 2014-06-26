@@ -3,13 +3,15 @@
     <article>
       <div class="videos">
 	<div class='video' tal:repeat="video videos" >
-	  <img class="img-responsive" src="${request.route_path('capture', id=video._id)}">
-	    <div class="description">
-	      <div class="description_content"><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>
-	      <div class="description_content owner"><a href="${request.route_path('vuser', id=video.userid)}">${video.owner}</a></div>
-	      <!-- <div class="description_content"><strong>Date :</strong> :${video.created}</div> -->
-	    </div>
-	  </img>
+	  <a href="${request.route_path('video', id=video._id)}">
+	    <img class="img-responsive" src="${request.route_path('capture', id=video._id)}">
+	      <div class="description">
+		<div class="description_content"><a href="${request.route_path('video', id=video._id)}"> ${video.title or "Sans titre"}</a></div>
+		<div class="description_content owner"><a href="${request.route_path('vuser', id=video.userid)}">${video.owner}</a></div>
+		<!-- <div class="description_content"><strong>Date :</strong> :${video.created}</div> -->
+	      </div>
+	    </img>
+	  </a>
 	</div>
       </div>
       <div class="row">
