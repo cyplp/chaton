@@ -1,5 +1,11 @@
 .videos{
-    display:flex;
+    display: flex;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     align-items: stretch;
 }
