@@ -145,7 +145,9 @@ def uploading(request):
                   created=created)
     video.save()
 
-    mime = magic.from_buffer(request.POST['file'].file.read(1024), mime=True)
+    mime = ''
+    with magic.Magic(flags=magic.MAGIC_MIME_TYPE) as guess:
+    	mime = guess.id_buffer(request.POST['file'].file.read(1024))
     request.POST['file'].file.seek(0)
 
     #todo secu ???
